@@ -5,8 +5,18 @@ import {Switch, Route} from 'react-router-dom'
 import ShopPage from "./pages/shop/shop.component";
 import {Header} from "./components/header/header.component";
 import {AuthPage} from "./pages/AuthPage/authpage.component";
+import {auth} from "./firebase/firebase.utils";
 
 function App() {
+
+    const[currentUser, setCurrentUser]=React.useState(null);
+
+    React.useEffect(()=>{
+        auth.onAuthStateChanged(user=>{
+            setCurrentUser(user)
+            console.log(user)
+        })
+    }, []);
     return (
         <div>
             <Header/>

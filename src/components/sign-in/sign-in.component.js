@@ -2,6 +2,7 @@ import React from 'react';
 import './sign-in.style.scss'
 import {FormInput} from "../form-input/form-input.component";
 import {UserButton} from "../user-button/user-button.component";
+import {signInWithGoogle} from "../../firebase/firebase.utils";
 
 export class SignInComponent extends React.Component {
 
@@ -26,10 +27,11 @@ export class SignInComponent extends React.Component {
     render() {
         return (
             <div className='sign-in'>
-                <h2>I already have an account</h2>
+                <h2 className='title'>I already have an account</h2>
                 <span>Sign in with your email and password</span>
                 <form onSubmit={this.handleSubmit}>
                     <FormInput value={this.state.email}
+                               autoComplete='off'
                                type="email"
                                label='email'
                                required
@@ -42,6 +44,8 @@ export class SignInComponent extends React.Component {
                                handleChange={this.handleChange}
                                name='password'/>
                     <UserButton type="submit">Submit</UserButton>
+                    <UserButton onClick={signInWithGoogle}>Sign In with Google</UserButton>
+
                 </form>
 
             </div>

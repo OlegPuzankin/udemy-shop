@@ -13,7 +13,7 @@ $danger-color: red;
   margin: 45px 0;
 
   .form-input {
-    //background: none;
+    background: none;
     background-color: white;
     color: $sub-color;
     font-size: 18px;
@@ -24,6 +24,8 @@ $danger-color: red;
     border-radius: 0;
     border-bottom: 1px solid $sub-color;
     margin: 25px 0;
+    box-sizing: border-box;
+
 
     &:focus {
       outline: none;

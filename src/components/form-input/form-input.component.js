@@ -4,7 +4,7 @@ import cn from 'classnames'
 
 export const FormInput = ({handleChange, label, ...otherProps}) => {
 
-    const labelClassName = cn({shrink:otherProps.value.length}, 'form-input-label')
+    const labelClassName = cn({shrink:otherProps.value.length}, 'form-input-label');
     return (
         <div className='group'>
             <input className='form-input' onChange={handleChange} {...otherProps}/>
