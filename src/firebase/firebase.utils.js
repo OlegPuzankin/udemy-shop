@@ -15,8 +15,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
-export const firestore=firebase.firestore();
-
+export const firestore = firebase.firestore();
 
 
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -24,6 +23,29 @@ provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 firebase.auth().useDeviceLanguage();
 provider.setCustomParameters({'login_hint': 'user@example.com'});
 
-export const signInWithGoogle=()=>auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+
+//////////////////////////////////FUNCTIONS////////////////////////////////
+export async function createUserProfileDocument(user, additionalData) {
+    //debugger
+
+    if (!user) return;
+
+    const useRef = firestore.doc(`users/${user.uid}`);
+    const snapshot = await useRef.get();
+
+    if (!snapshot.exists) {
+
+        const {displayName, email} = user;
+        const createdAt = new Date();
+        try {
+            await useRef.set({displayName, email, createdAt, ...additionalData})
+        } catch (e) {
+            console.log(e.message)
+        }
+    }
+    return useRef
+}
 
 export default firebase;
