@@ -43,8 +43,11 @@ export class SignInComponent extends React.Component {
                                required
                                handleChange={this.handleChange}
                                name='password'/>
-                    <UserButton type="submit">Submit</UserButton>
-                    <UserButton onClick={signInWithGoogle}>Sign In with Google</UserButton>
+                    <div className='buttons'>
+                        <UserButton type="submit">Submit</UserButton>
+                        <UserButton onClick={signInWithGoogle} isSignWithGoogle>Sign In with Google</UserButton>
+
+                    </div>
 
                 </form>
 

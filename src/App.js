@@ -12,14 +12,16 @@ function App() {
     const[currentUser, setCurrentUser]=React.useState(null);
 
     React.useEffect(()=>{
-        auth.onAuthStateChanged(user=>{
-            setCurrentUser(user)
+        const unsubscribeFromAuth=auth.onAuthStateChanged(user=>{
+            setCurrentUser(user);
             console.log(user)
-        })
+        });
+
+        return ()=>unsubscribeFromAuth();
     }, []);
     return (
         <div>
-            <Header/>
+            <Header currentUser={currentUser}/>
             <Switch>
                 <Route exact path={'/'} component={HomePage}/>
                 <Route  path={'/shop'} component={ShopPage}/>
