@@ -13,6 +13,7 @@ function App() {
 
     React.useEffect(() => {
         const unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
+            debugger
             if (user) {
 
                 const userRef = await createUserProfileDocument(user);
