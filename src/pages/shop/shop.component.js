@@ -1,31 +1,40 @@
 import React from 'react'
-import SHOP_DATA from "./shop.data";
-import {PreviewCollection} from "../../components/preview-collection/preview-collection.component";
+import {CollectionsOverview} from "../../components/collections-overview/collections-overview.component";
+import {Route} from "react-router-dom";
+import {Collection} from "../collection/collection-page.component";
+import {convertCollectionSnapshotToMap, firestore} from "../../firebase/firebase.utils";
+import {useDispatch} from "react-redux";
+import {updateShopCollections} from "../../redux/actions/shop-actions";
+import {WithSpinner} from "../../components/with-spinner/with-spinner.component";
 
-class ShopPage extends React.Component{
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionWithSpinner = WithSpinner(Collection);
 
-    // constructor(){
-    //     super();
-    //     this.state={
-    //         collections:SHOP_DATA
-    //     }
-    // }
-    state={
-        collections:SHOP_DATA
-    };
+export function ShopPage({match}) {
 
-    render() {
-        const {collections} = this.state;
-        return (
-            <div className='shop-page'>
-                {
-                    collections.map(({id, ...otherCollectionProps})=>(
-                        <PreviewCollection key={id} {...otherCollectionProps} />
-                    ))
-                }
-            </div>
-        )
-    }
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    //console.log('props from ShopPage',match)
+    React.useEffect(() => {
+        const collectionRef = firestore.collection('collections');
+        collectionRef.onSnapshot(async snapshot => {
+            const collectionsMap = convertCollectionSnapshotToMap(snapshot);
+            dispatch(updateShopCollections(collectionsMap));
+            setIsLoading(false)
+            // console.log('collectionMap',collectionsMap)
+        })
+
+    }, []);
+
+    return (
+        <div className='shop-page'>
+            <Route exact path={`${match.path}`}
+                   render={props => <CollectionsOverviewWithSpinner isLoading={isLoading} {...props}/>}/>
+            <Route path={`${match.path}/:collectionId`}
+                   render={props => <CollectionWithSpinner isLoading={isLoading} {...props}/>}/>
+        </div>
+    )
+
 }
 
-export default ShopPage

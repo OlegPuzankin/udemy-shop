@@ -1,8 +1,20 @@
 import {createSelector} from 'reselect'
 
-const selectDirectory=state=>state.directory;
 
-export const selectDirectorySections = createSelector(
-    [selectDirectory],
-    (directory)=>directory.sections
-)
+const selectShop=state=>state.shop;
+
+export const selectCollections = createSelector(
+    [selectShop],
+    (shop)=>shop.collections
+);
+
+export const selectCollection =(collectionUrlParam)=>createSelector(
+    [selectCollections],
+    collections=>collections?collections[collectionUrlParam]:null
+);
+
+export const selectCollectionPreview =createSelector(
+    [selectCollections],
+    collections=>collections?Object.keys(collections).map(key=>collections[key]):[]
+);
+

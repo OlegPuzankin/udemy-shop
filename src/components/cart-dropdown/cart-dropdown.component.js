@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {CartItem} from "../cart-item/cart-item.component";
 import {selectCartItems} from "../../redux/selectors/cart-selectors";
 import {useHistory} from 'react-router-dom'
-import {TOGGLE_CART_HIDDEN} from "../../redux/types";
+import {toggleCartHidden} from "../../redux/actions/cart-actions";
 
 export const CartDropdown = (props) => {
     const cartItems = useSelector(selectCartItems);
@@ -15,7 +15,7 @@ export const CartDropdown = (props) => {
 
     function handleGoCheckout() {
         history.push('/checkout');
-        dispatch({type:TOGGLE_CART_HIDDEN})
+        dispatch(toggleCartHidden())
     }
     //debugger
 

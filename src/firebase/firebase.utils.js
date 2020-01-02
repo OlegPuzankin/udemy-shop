@@ -32,20 +32,50 @@ export async function createUserProfileDocument(user, additionalData) {
 
     if (!user) return;
 
-    const useRef = firestore.doc(`users/${user.uid}`);
-    const snapshot = await useRef.get();
+    const userRef = firestore.doc(`users/${user.uid}`);
+    const snapshot = await userRef.get();
 
     if (!snapshot.exists) {
 
         const {displayName, email} = user;
         const createdAt = new Date();
         try {
-            await useRef.set({displayName, email, createdAt, ...additionalData})
+            await userRef.set({displayName, email, createdAt, ...additionalData})
         } catch (e) {
             console.log(e.message)
         }
     }
-    return useRef
+    return userRef
+}
+
+export async function addCollectionsAndDocuments(collectionKey, objectsToAdd) {
+    const collectionRef = firestore.collection(collectionKey);
+    //console.log(collectionRef)
+    const batch = firestore.batch();
+    objectsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj)
+    })
+
+    return await batch.commit()
+}
+
+export function convertCollectionSnapshotToMap(collections) {
+    const mappedCollections= collections.docs.map(doc => {
+        const {title, items} = doc.data();
+        return {
+            routeName:encodeURI(title.toLowerCase()),
+            id: doc.id,
+            items,
+            title
+        }
+
+    })
+
+    return mappedCollections.reduce((accumulator,collection)=>{
+        accumulator[collection.title.toLocaleLowerCase()]=collection;
+        return accumulator;
+    },{})
 }
 
 export default firebase;

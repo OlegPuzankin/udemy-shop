@@ -1,5 +1,5 @@
 import {ADD_ITEM_TO_CART, CLEAR_ITEM_FROM_CART, REMOVE_ITEM_FROM_CART, TOGGLE_CART_HIDDEN} from "../types";
-import {addItemToCart, removeItemFromCart} from "./cart-functions";
+import {addItemToCart, removeItemFromCart} from "../functions/cart-functions";
 
 const INITIAL_STATE={
     hidden: true,
