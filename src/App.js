@@ -16,7 +16,7 @@ function App() {
     //const [currentUser, setCurrentUser] = React.useState(null);
     const dispatch = useDispatch();
     const currentUser = useSelector(selectCurrentUser);
-    console.log(currentUser);
+    // console.log(currentUser);
     //const collections=useSelector(selectCollectionPreview)
 
     React.useEffect(() => {
