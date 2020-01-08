@@ -3,62 +3,67 @@ import './sign-in.style.scss'
 import {FormInput} from "../form-input/form-input.component";
 import {UserButton} from "../user-button/user-button.component";
 import {auth, signInWithGoogle} from "../../firebase/firebase.utils";
+import {useDispatch, useSelector} from "react-redux";
+import {emailSignInStart, googleSignInStart} from "../../redux/actions/user-actions";
 
-export class SignInComponent extends React.Component {
+export function SignInComponent() {
 
-    constructor() {
-        super();
-        this.state = {
-            email: '',
-            password: ''
-        }
+    const [state, setState] = React.useState({email:'', password: ''});
+
+    const dispatch = useDispatch();
+
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        dispatch(emailSignInStart(state))
+
+
+
+        // const {email, password} = state;
+        // try {
+        //     await auth.signInWithEmailAndPassword(email, password);
+        //     setState({email: '', password: ''})
+        // } catch (e) {
+        //     console.log(e.message)
+        // }
     }
 
-    handleSubmit = async (e) => {
-        e.preventDefault();
-        const {email, password} = this.state;
-        try {
-            await auth.signInWithEmailAndPassword(email, password);
-            this.setState({email: '', password: ''})
-        } catch (e) {
-            console.log(e.message)
-        }
-
-    };
-
-    handleChange = (e) => {
+    function handleChange(e) {
         const {name, value} = e.target;
-        this.setState({[name]: value})
-    };
+        setState({...state, [name]: value})
+    }
 
-    render() {
-        return (
-            <div className='sign-in'>
-                <h2 className='title'>I already have an account</h2>
-                <span>Sign in with your email and password</span>
-                <form onSubmit={this.handleSubmit}>
-                    <FormInput value={this.state.email}
-                               autoComplete='off'
-                               type="email"
-                               label='email'
-                               required
-                               name='email'
-                               handleChange={this.handleChange}/>
-                    <FormInput value={this.state.password}
-                               type="password"
-                               label='password'
-                               required
-                               handleChange={this.handleChange}
-                               name='password'/>
-                    <div className='buttons'>
-                        <UserButton type="submit">Submit</UserButton>
-                        <UserButton onClick={signInWithGoogle} isSignWithGoogle>Sign In with Google</UserButton>
+    console.log('sign in state',state)
 
-                    </div>
 
-                </form>
+    return (
+        <div className='sign-in'>
+            <h2 className='title'>I already have an account</h2>
+            <span>Sign in with your email and password</span>
+            <form onSubmit={handleSubmit}>
+                <FormInput value={state.email}
+                           autoComplete='off'
+                           type="email"
+                           label='email'
+                           required
+                           name='email'
+                           handleChange={handleChange}/>
+                <FormInput value={state.password}
+                           type="password"
+                           label='password'
+                           required
+                           handleChange={handleChange}
+                           name='password'/>
+                <div className='buttons'>
+                    <UserButton type="submit">Submit</UserButton>
+                    <UserButton type='button' onClick={() => dispatch(googleSignInStart())} isSignWithGoogle>
+                        Sign In with Google
+                    </UserButton>
 
-            </div>
-        );
-    };
+                </div>
+
+            </form>
+
+        </div>
+    );
 }

@@ -1,5 +1,11 @@
 //////user/////
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const GOOGLE_SIGN_IN_START='GOOGLE_SIGN_IN_START';
+export const EMAIL_SIGN_IN_START='EMAIL_SIGN_IN_START';
+export const SIGN_IN_SUCCESS='SIGN_IN_SUCCESS';
+export const SIGN_IN_FAIL='SIGN_IN_FAIL';
+
+
 
 //////cart////
 export const TOGGLE_CART_HIDDEN = 'TOGGLE_CART_HIDDEN';
