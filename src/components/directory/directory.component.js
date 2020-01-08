@@ -1,7 +1,6 @@
 import React from 'react'
 import {MenuItem} from "../menu-item/menu-item.component";
 import './directory.style.scss'
-import SECTIONS_DATA from "./sections.data";
 import {useSelector} from "react-redux";
 import {selectDirectorySections} from "../../redux/selectors/directory-selectors";
 

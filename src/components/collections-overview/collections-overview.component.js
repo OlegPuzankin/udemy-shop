@@ -1,10 +1,15 @@
 import React from 'react';
 import './collections-overview.styles.scss'
 import {PreviewCollection} from "../preview-collection/preview-collection.component";
-import {useSelector} from "react-redux";
-import {selectCollectionPreview} from "../../redux/selectors/shop-selectors";
+import {connect, useSelector} from "react-redux";
+import {selectCollectionPreview, selectIsCollectionsFetching} from "../../redux/selectors/shop-selectors";
+import {WithSpinner} from "../../components/with-spinner/with-spinner.component";
+import {createStructuredSelector} from "reselect";
+import {compose} from "redux";
 
-export const CollectionsOverview = () => {
+
+const CollectionsOverview = (props) => {
+    console.log('collection overview props', props)
 
     const collections = useSelector(selectCollectionPreview);
     //const collections2 = useSelector(selectCollections);
@@ -21,3 +26,12 @@ export const CollectionsOverview = () => {
         </div>
     );
 };
+
+const mapStateToProps=createStructuredSelector({
+    isLoading:selectIsCollectionsFetching
+});
+
+export const CollectionOverviewContainer= compose(
+    connect(mapStateToProps),
+    WithSpinner
+)(CollectionsOverview);
