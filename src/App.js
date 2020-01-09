@@ -9,13 +9,14 @@ import {auth, createUserProfileDocument} from "./firebase/firebase.utils";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser} from "./redux/selectors/user-selectors";
 import {Checkout} from "./pages/checkout/checkout.component";
-import {setCurrentUser} from "./redux/actions/user-actions";
+import {checkUserSession, setCurrentUser} from "./redux/actions/user-actions";
 
 function App() {
     const dispatch = useDispatch();
     const currentUser = useSelector(selectCurrentUser);
 
     React.useEffect(() => {
+        dispatch(checkUserSession())
         // const unsubscribeFromAuth = auth.onAuthStateChanged(async user => {
         //     //debugger
         //     if (user) {
