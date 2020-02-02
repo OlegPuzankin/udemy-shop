@@ -1,15 +1,14 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import HomePage from "./pages/homepage/Homepage.component";
 import {Switch, Route, Redirect} from 'react-router-dom'
 import {ShopPage} from "./pages/shop/shop.component";
 import {Header} from "./components/header/header.component";
 import {AuthPage} from "./pages/AuthPage/authpage.component";
-import {auth, createUserProfileDocument} from "./firebase/firebase.utils";
 import {useDispatch, useSelector} from "react-redux";
 import {selectCurrentUser} from "./redux/selectors/user-selectors";
 import {Checkout} from "./pages/checkout/checkout.component";
-import {checkUserSession, setCurrentUser} from "./redux/actions/user-actions";
+import {checkUserSession} from "./redux/actions/user-actions";
 
 function App() {
     const dispatch = useDispatch();
@@ -28,7 +27,7 @@ function App() {
         //     dispatch(setCurrentUser(null));
         // });
         // return () => unsubscribeFromAuth();
-    }, []);
+    }, [dispatch]);
     return (
         <div>
             <Header/>

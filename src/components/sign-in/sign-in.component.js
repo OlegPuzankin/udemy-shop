@@ -2,8 +2,7 @@ import React from 'react';
 import './sign-in.style.scss'
 import {FormInput} from "../form-input/form-input.component";
 import {UserButton} from "../user-button/user-button.component";
-import {auth, signInWithGoogle} from "../../firebase/firebase.utils";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {emailSignInStart, googleSignInStart} from "../../redux/actions/user-actions";
 
 export function SignInComponent() {
@@ -16,16 +15,6 @@ export function SignInComponent() {
     async function handleSubmit(e) {
         e.preventDefault();
         dispatch(emailSignInStart(state))
-
-
-
-        // const {email, password} = state;
-        // try {
-        //     await auth.signInWithEmailAndPassword(email, password);
-        //     setState({email: '', password: ''})
-        // } catch (e) {
-        //     console.log(e.message)
-        // }
     }
 
     function handleChange(e) {

@@ -1,8 +1,8 @@
 import React from 'react'
-import {MenuItem} from "../menu-item/menu-item.component";
 import './directory.style.scss'
 import {useSelector} from "react-redux";
 import {selectDirectorySections} from "../../redux/selectors/directory-selectors";
+import {MenuItem2} from "../menu-item/_menu-item.component";
 
 
 function Directory() {
@@ -12,7 +12,7 @@ function Directory() {
     return (
         <div className="directory-menu">
             {sections.map(({title, imageUrl, id, size, linkUrl}) => (
-                <MenuItem title={title} key={id} imageUrl={imageUrl} size={size} linkUrl={linkUrl}/>))}
+                <MenuItem2 title={title} key={id} imageUrl={imageUrl} size={size} linkUrl={linkUrl}/>))}
         </div>
 
     )

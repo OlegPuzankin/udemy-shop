@@ -2,7 +2,8 @@ import React from 'react';
 import './sign-up.style.scss'
 import {FormInput} from "../form-input/form-input.component";
 import {UserButton} from "../user-button/user-button.component";
-import {auth, createUserProfileDocument} from "../../firebase/firebase.utils";
+import {useDispatch} from "react-redux";
+import {signUpStart} from "../../redux/actions/user-actions";
 
 
 const INITIAL_VALUES={
@@ -14,6 +15,8 @@ const INITIAL_VALUES={
 
 export function SignUp() {
 
+    const dispatch = useDispatch()
+
     const [values, setValues]=React.useState(INITIAL_VALUES);
 
     function handleChange (e){
@@ -21,6 +24,7 @@ export function SignUp() {
         setValues({...values, [name]: value});
     }
 
+    const {email, displayName, password, confirmPassword } = values
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -29,21 +33,18 @@ export function SignUp() {
             return
         }
 
-        try {
-            const {user} = await auth.createUserWithEmailAndPassword(email, password)
-            await createUserProfileDocument(user, {displayName});
-            setValues(INITIAL_VALUES)
+        dispatch(signUpStart({email, password, displayName}))
 
-        } catch (e) {
-            console.log(e.message)
-        }
+        // try {
+        //     const {user} = await auth.createUserWithEmailAndPassword(email, password)
+        //     await createUserProfileDocument(user, {displayName});
+        //     setValues(INITIAL_VALUES)
+        //
+        // } catch (e) {
+        //     console.log(e.message)
+        // }
     }
-
-
-    const {email, displayName, password, confirmPassword } = values
-
     console.log('values',values)
-
 
     return (
         <div className='sign-up'>

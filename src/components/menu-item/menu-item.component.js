@@ -14,10 +14,10 @@ export const MenuItem = ({title, imageUrl, size, linkUrl}) => {
             <div className='background-image' style={{
                 backgroundImage: `url(${imageUrl})`
             }}/>
-            <div className="content">
+            <dihv className="content">
                 <h1 className="title">{title.toUpperCase()} </h1>
                 <span className='subtitle'>Order now</span>
-            </div>
+            </dihv>
         </div>
     );
 };

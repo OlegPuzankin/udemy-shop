@@ -27,8 +27,8 @@ export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 
 //////////////////////////////////FUNCTIONS////////////////////////////////
-export async function createUserProfileDocument(user, additionalData) {
-    //debugger
+export async function createUserProfileDocument(user, displayName) {
+    console.log('createUserProfileDocument USER', user)
 
     if (!user) return;
 
@@ -37,10 +37,10 @@ export async function createUserProfileDocument(user, additionalData) {
 
     if (!snapshot.exists) {
 
-        const {displayName, email} = user;
+        const {email} = user;
         const createdAt = new Date();
         try {
-            await userRef.set({displayName, email, createdAt, ...additionalData})
+            await userRef.set({email, createdAt, displayName})
         } catch (e) {
             console.log(e.message)
         }

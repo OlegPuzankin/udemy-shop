@@ -10,6 +10,10 @@ export const SIGN_OUT_START='SIGN_OUT_START';
 export const SIGN_OUT_SUCCESS='SIGN_OUT_SUCCESS';
 export const SIGN_OUT_FAIL='SIGN_OUT_FAIL';
 
+export const SIGN_UP_START='SIGN_UP_START';
+export const SIGN_UP_SUCCESS='SIGN_UP_SUCCESS';
+export const SIGN_UP_FAIL='SIGN_UP_FAIL';
+
 
 
 //////cart////
@@ -17,6 +21,7 @@ export const TOGGLE_CART_HIDDEN = 'TOGGLE_CART_HIDDEN';
 export const ADD_ITEM_TO_CART='ADD_ITEM_TO_CART';
 export const CLEAR_ITEM_FROM_CART='CLEAR_ITEM_FROM_CART';
 export const REMOVE_ITEM_FROM_CART='REMOVE_ITEM_FROM_CART';
+export const CLEAR_CART='CLEAR_CART';
 
 
 ///shop////

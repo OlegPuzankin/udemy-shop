@@ -3,7 +3,6 @@ import './collection-page.styles.scss'
 import {connect, useSelector} from "react-redux";
 import {
     selectCollection,
-    selectIsCollectionsFetching,
     selectIsCollectionsLoaded
 } from "../../redux/selectors/shop-selectors";
 import {CollectionItem} from "../../components/collection-item/collection-item.component";

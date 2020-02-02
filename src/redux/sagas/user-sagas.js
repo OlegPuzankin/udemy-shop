@@ -1,13 +1,26 @@
 import {takeLatest, put, call, all} from 'redux-saga/effects'
-import {CHECK_USER_SESSION, EMAIL_SIGN_IN_START, GOOGLE_SIGN_IN_START, SIGN_OUT_START} from "../types";
+import {
+    CHECK_USER_SESSION,
+    EMAIL_SIGN_IN_START,
+    GOOGLE_SIGN_IN_START,
+    SIGN_OUT_START,
+    SIGN_UP_START,
+    SIGN_UP_SUCCESS
+} from "../types";
 import {auth, createUserProfileDocument, getCurrentUser, googleProvider} from "../../firebase/firebase.utils";
-import {signInFail, signInSuccess, signOutFail, signOutSuccess} from "../actions/user-actions";
-import {logger} from "redux-logger/src";
+import {
+    signInFail,
+    signInSuccess,
+    signOutFail,
+    signOutSuccess,
+    signUpFail,
+    signUpSuccess
+} from "../actions/user-actions";
 
 
-function* getSnapshotFromUserAuth(userAuth) {
+function* getSnapshotFromUserAuth(userAuth, displayName) {
     try {
-        const userRef = yield call(createUserProfileDocument, userAuth);
+        const userRef = yield call(createUserProfileDocument, userAuth, displayName);
         const userSnapshot = yield userRef.get();
         yield put(signInSuccess({...userSnapshot.data(), id: userSnapshot.id}))
     } catch (e) {
@@ -50,12 +63,7 @@ function* isUserAuthenticated() {
         const userAuth = yield getCurrentUser();
         if (!userAuth)
             return;
-    debugger
-        console.log(userAuth);
         yield getSnapshotFromUserAuth(userAuth)
-        // const userRef = yield createUserProfileDocument(user);
-        // const userSnapshot = yield userRef.get();
-        // yield put(signInSuccess({...userSnapshot.data(), id: userSnapshot.id}))
 
     } catch (e) {
         yield put(signInFail(e))
@@ -67,11 +75,27 @@ function* signOut() {
         yield auth.signOut()
         yield put(signOutSuccess())
 
-    }
-    catch (e) {
+    } catch (e) {
         yield put(signOutFail(e))
     }
 }
+
+function* signUp({payload}) {
+    const {email, password, displayName} = payload
+    try {
+        const {user} = yield auth.createUserWithEmailAndPassword(email, password);
+        yield put(signUpSuccess({user, displayName}))
+
+    } catch (e) {
+        yield put(signUpFail(e))
+    }
+}
+
+function* signInAfterSignUp({payload}) {
+    const {user, displayName}=payload;
+    yield getSnapshotFromUserAuth(user, displayName)
+}
+
 
 ///////////////////////SAGA  WATCHERS//////////////////
 function* onGoogleSignInStart() {
@@ -90,11 +114,21 @@ function* onSignOutStart() {
     yield takeLatest(SIGN_OUT_START, signOut)
 }
 
+function* onSignUpStart() {
+    yield takeLatest(SIGN_UP_START, signUp)
+}
+
+function* onSignUpSuccess() {
+    yield takeLatest(SIGN_UP_SUCCESS, signInAfterSignUp)
+}
+
 export function* userSagas() {
     yield all([
         call(onGoogleSignInStart),
         call(onEmailSignInStart),
         call(onCheckUserSession),
-        call(onSignOutStart)
+        call(onSignOutStart),
+        call(onSignUpStart),
+        call(onSignUpSuccess)
     ])
 }

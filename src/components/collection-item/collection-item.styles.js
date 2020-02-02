@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components'
+import styled from 'styled-components'
 import {UserButton} from "../user-button/user-button.component";
 
 export const CollectionItemContainer = styled.div`
@@ -30,6 +30,7 @@ export const AddButton = styled(UserButton)`
 `;
 
 export const CollectionItemImage=styled.div`
+
     width: 100%;
     height: 95%;
     background-size: cover;

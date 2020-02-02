@@ -4,7 +4,7 @@ import {
     GOOGLE_SIGN_IN_START,
     SET_CURRENT_USER,
     SIGN_IN_FAIL,
-    SIGN_IN_SUCCESS, SIGN_OUT_FAIL, SIGN_OUT_START, SIGN_OUT_SUCCESS
+    SIGN_IN_SUCCESS, SIGN_OUT_FAIL, SIGN_OUT_START, SIGN_OUT_SUCCESS, SIGN_UP_FAIL, SIGN_UP_START, SIGN_UP_SUCCESS
 } from "../types";
 
 export function setCurrentUser(user) {
@@ -66,3 +66,9 @@ export function signOutFail(error) {
         payload:error
     }
 }
+
+export const signUpStart=(userData)=>({type:SIGN_UP_START, payload:userData});
+
+export const signUpSuccess=(userData)=>({type:SIGN_UP_SUCCESS, payload:userData});
+
+export const signUpFail=(error)=>({type:SIGN_UP_FAIL, payload:error});
